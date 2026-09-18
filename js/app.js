@@ -13,7 +13,41 @@ document.addEventListener('DOMContentLoaded', () => {
   initBenefitTabs();
   initRegistrationModal();
   initBackToTop();
+  initContentProtection();
 });
+
+/* ==========================================
+   6. CONTENT COPY DETERRENTS
+   ========================================== */
+function initContentProtection() {
+  document.addEventListener('contextmenu', (e) => {
+    if (!e.target.closest('input, textarea, select, [contenteditable="true"]')) {
+      e.preventDefault();
+    }
+  });
+
+  document.addEventListener('copy', (e) => {
+    if (!e.target.closest('input, textarea, select, [contenteditable="true"]')) {
+      e.preventDefault();
+    }
+  });
+
+  document.addEventListener('cut', (e) => {
+    if (!e.target.closest('input, textarea, select, [contenteditable="true"]')) {
+      e.preventDefault();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    const key = e.key.toLowerCase();
+    const isModifierPressed = e.ctrlKey || e.metaKey;
+
+    if (isModifierPressed && ['c', 'u', 's', 'p'].includes(key) &&
+        !e.target.closest('input, textarea, select, [contenteditable="true"]')) {
+      e.preventDefault();
+    }
+  });
+}
 
 /* ==========================================
    1. NAVBAR & SCROLLSPY
